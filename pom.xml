@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mx.com.multiva</groupId>
-	<artifactId>get-balance</artifactId>
+	<artifactId>sipare-get-balance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>get-balance</name>
+	<name>sipare-get-balance</name>
 	<description>This microservice is intended to retrieve balance according to type(institution) and date.</description>
 
 	<properties>
