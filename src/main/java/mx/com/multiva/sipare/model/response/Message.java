@@ -6,7 +6,7 @@ public class Message {
 
     private int status;
     private String error;
-    private String message;
+    private String description;
     private Timestamp timestamp;
 
     public int getStatus() {
@@ -25,12 +25,12 @@ public class Message {
         this.error = error;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Timestamp getTimestamp() {

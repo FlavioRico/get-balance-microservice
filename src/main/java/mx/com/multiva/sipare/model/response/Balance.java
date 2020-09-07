@@ -2,6 +2,7 @@ package mx.com.multiva.sipare.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpStatus;
 
 public class Balance {
 
@@ -17,7 +18,7 @@ public class Balance {
     private boolean balanced;
     private int status;
     @JsonIgnore
-    private int httpResponseCodeStatus;
+    private HttpStatus httpStatus;
 
     public int getId() {
         return id;
@@ -83,12 +84,12 @@ public class Balance {
         this.status = status;
     }
 
-    public int getHttpResponseCodeStatus() {
-        return httpResponseCodeStatus;
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setHttpResponseCodeStatus(int httpResponseCodeStatus) {
-        this.httpResponseCodeStatus = httpResponseCodeStatus;
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 
 }
