@@ -1,4 +1,4 @@
-package mx.com.multiva.sipare.util;
+package mx.com.multiva.sipare.model.util;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
