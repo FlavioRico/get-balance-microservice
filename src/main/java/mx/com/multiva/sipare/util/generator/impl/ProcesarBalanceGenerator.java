@@ -6,6 +6,7 @@ import mx.com.multiva.sipare.model.response.Comparison;
 import mx.com.multiva.sipare.model.response.Summary;
 import mx.com.multiva.sipare.model.util.AccountBalanceT24;
 import mx.com.multiva.sipare.repository.SipareBalanceRepository;
+import mx.com.multiva.sipare.util.DateOperations;
 import mx.com.multiva.sipare.util.client.AccountBalanceT24Client;
 import mx.com.multiva.sipare.util.generator.BalanceGenerator;
 import mx.com.multiva.sipare.util.BalanceType;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Component
 public class ProcesarBalanceGenerator implements BalanceGenerator {
@@ -29,6 +32,8 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
     private AccountBalanceT24Client accountBalanceT24Client;
     @Autowired
     private ProcesarBalanceBuilder procesarBalanceBuilder;
+    @Autowired
+    private DateOperations dateOperations;
 
     @Override
     public Balance generateCurrentBalance() {
@@ -62,6 +67,7 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
 
             balance.setId(sipareBalance.getId());
             balance.setDispatchDate(sipareBalance.getDispatchDate());
+            balance.setPaymentDate(sipareBalance.getPaymentDate());
             balance.setType(sipareBalance.getType());
             balance.setFileAmounts(summary);
             balance.setT24Amounts(summary);
@@ -77,10 +83,16 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
                 /** Retrieving balance from Yaxché and T24 Services **/
                 AccountBalanceT24 accountBalanceT24 =
                         accountBalanceT24Client.getAccAccountBalanceT24();
+                /** To generate payment date **/
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date currentDate = new Date();
 
                 /** 24 as a reference of T24 input **/
                 balance.setId(24);
                 balance.setDispatchDate(accountBalanceT24.getDate());
+                balance.setPaymentDate(simpleDateFormat.format(
+                        dateOperations.subtractBusinessDays(currentDate,3)
+                ));
                 balance.setType(BalanceType.PROCESAR);
                 balance.setFileAmounts(procesarBalanceBuilder.buildSummary(
                         accountBalanceT24.getCollectionImssRcv(),
