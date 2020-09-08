@@ -9,6 +9,8 @@ public class Balance {
     private int id;
     @JsonProperty("dispatch_date")
     private String dispatchDate;
+    @JsonProperty("payment_date")
+    private String paymentDate;
     private String type;
     @JsonProperty("file_amounts")
     private Summary fileAmounts;
@@ -34,6 +36,14 @@ public class Balance {
 
     public void setDispatchDate(String dispatchDate) {
         this.dispatchDate = dispatchDate;
+    }
+
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
     public String getType() {
