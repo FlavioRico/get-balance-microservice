@@ -88,7 +88,6 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
                 Date currentDate = new Date();
 
                 /** 24 as a reference of T24 input **/
-                balance.setId(24);
                 balance.setDispatchDate(accountBalanceT24.getDate());
                 balance.setPaymentDate(simpleDateFormat.format(
                         dateOperations.subtractBusinessDays(currentDate,3)
