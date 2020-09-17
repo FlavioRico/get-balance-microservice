@@ -24,10 +24,11 @@ public class BalanceRestControler {
     @Autowired
     private BalanceService balanceService;
 
-    @GetMapping("/balances")
-    public ResponseEntity<Object> getBalance(@RequestParam String type) {
+    @GetMapping("/balances/findByTypeAndDate")
+    public ResponseEntity<Object> getBalanceByTypeAndDate(
+            @RequestParam(required = false) String date, @RequestParam String type) {
 
-        Balance balance = balanceService.retrieveBalance(type);
+        Balance balance = balanceService.retrieveBalanceByTypeAndDate(date, type);
 
         if (balance.getHttpStatus() != HttpStatus.OK) {
 

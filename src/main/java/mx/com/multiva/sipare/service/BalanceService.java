@@ -11,9 +11,9 @@ public class BalanceService {
     @Autowired
     private BalanceSelector balanceSelector;
 
-    public Balance retrieveBalance(String type) {
+    public Balance retrieveBalanceByTypeAndDate(String date, String type) {
 
-        return balanceSelector.selectCurrentBalance(type);
+        return balanceSelector.selectBalance(date, type);
     }
 
 }
