@@ -1,6 +1,7 @@
 package mx.com.multiva.sipare.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,8 +14,10 @@ public class SipareBalance {
 
     @Id
     private int id;
+    @JsonProperty("dispatch_date")
     private String dispatchDate;
     private String type;
+    @JsonProperty("payment_date")
     private String paymentDate;
     @JsonIgnore
     private BigDecimal totalRcv;
