@@ -1,5 +1,7 @@
 package mx.com.multiva.sipare.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,10 +16,15 @@ public class SipareBalance {
     private String dispatchDate;
     private String type;
     private String paymentDate;
+    @JsonIgnore
     private BigDecimal totalRcv;
+    @JsonIgnore
     private BigDecimal totalVicAcvImss;
+    @JsonIgnore
     private BigDecimal total;
     private int status;
+    private String user;
+    private String timestamp;
 
     public int getId() {
         return id;
@@ -81,6 +88,22 @@ public class SipareBalance {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
 }
