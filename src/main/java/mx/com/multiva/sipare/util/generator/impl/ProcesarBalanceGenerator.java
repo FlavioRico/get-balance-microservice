@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -36,23 +37,14 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
     private DateOperations dateOperations;
 
     @Override
-    public Balance generateCurrentBalance() {
+    public Balance generateBalanceByTypeAndDate() {
 
-        LOGGER.info("Generating current PROCESAR Balance");
-
-        /** Retrieving balance from Database **/
         SipareBalance sipareBalance = sipareBalanceRepository.findByDispatchDateAndType(
                 LocalDate.now().toString(), BalanceType.PROCESAR);
 
         Balance balance = new Balance();
 
         if(sipareBalance != null) {
-
-            /**
-             * In the case of the PROCESAR balance, if it is persisted,
-             * it implies that it is balanced and therefore has been approved,
-             * it is not necessary to call the service again.
-             **/
 
             Summary summary = procesarBalanceBuilder.buildSummary(
                     sipareBalance.getTotalRcv(),
@@ -75,8 +67,16 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
             balance.setBalanced(true);
             balance.setStatus(sipareBalance.getStatus());
             balance.setHttpStatus(HttpStatus.OK);
+            balance.setApprovedBy(sipareBalance.getApprovedBy());
+            balance.setTimestamp(sipareBalance.getTimestamp());
 
         }else {
+
+            /**
+             * In the case of PROCESAR balance if it is persisted it implies that it is
+             * balanced and therefore has been approved otherwise it is necessary
+             * to call T24 services.
+             **/
 
             try {
 
@@ -86,6 +86,9 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
                 /** To generate payment date **/
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date currentDate = new Date();
+                /** To generate timestamp **/
+                SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
                 balance.setDispatchDate(accountBalanceT24.getDate());
                 balance.setPaymentDate(simpleDateFormat.format(
@@ -111,6 +114,8 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
                         balance.getComparisons()));
                 balance.setStatus(200);
                 balance.setHttpStatus(HttpStatus.OK);
+                balance.setApprovedBy("unapproved");
+                balance.setTimestamp(timestampFormat.format(timestamp));
 
             }catch (Exception exception) {
 
@@ -121,4 +126,5 @@ public class ProcesarBalanceGenerator implements BalanceGenerator {
 
         return balance;
     }
+
 }

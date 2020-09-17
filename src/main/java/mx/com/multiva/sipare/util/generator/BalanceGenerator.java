@@ -4,5 +4,5 @@ import mx.com.multiva.sipare.model.response.Balance;
 
 public interface BalanceGenerator {
 
-    public Balance generateCurrentBalance();
+    public Balance generateBalanceByTypeAndDate();
 }

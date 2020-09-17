@@ -16,14 +16,14 @@ public class BalanceSelector {
     @Autowired
     ProcesarBalanceGenerator procesarBalanceGenerator;
 
-    public Balance selectCurrentBalance(String type) {
+    public Balance selectBalance(String date, String type) {
 
         Balance balance = null;
 
         switch (type) {
 
             case BalanceType.PROCESAR:
-                balance = procesarBalanceGenerator.generateCurrentBalance();
+                balance = procesarBalanceGenerator.generateBalanceByTypeAndDate();
                 break;
 
             case BalanceType.CONSAR:
