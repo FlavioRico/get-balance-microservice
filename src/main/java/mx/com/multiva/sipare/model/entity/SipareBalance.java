@@ -26,7 +26,8 @@ public class SipareBalance {
     @JsonIgnore
     private BigDecimal total;
     private int status;
-    private String user;
+    @JsonProperty("approved_by")
+    private String approvedBy;
     private String timestamp;
 
     public int getId() {
@@ -93,12 +94,12 @@ public class SipareBalance {
         this.status = status;
     }
 
-    public String getUser() {
-        return user;
+    public String getApprovedBy() {
+        return approvedBy;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setApprovedBy(String approvedBy) {
+        this.approvedBy = approvedBy;
     }
 
     public String getTimestamp() {
