@@ -1,4 +1,4 @@
-package mx.com.multiva.sipare.util.generator.impl;
+package mx.com.multiva.sipare.util.generator;
 
 import mx.com.multiva.sipare.model.entity.SipareBalance;
 import mx.com.multiva.sipare.model.response.Balance;
@@ -39,8 +39,14 @@ public class ProcesarBalanceGenerator {
     @Autowired
     private DateOperations dateOperations;
 
-    public Balance generateBalanceByDate() {
-        return null;
+    public Balance generateBalanceByDate(String date) {
+
+        LOGGER.info("Getting balance with date : " + date);
+
+        Balance balance = new Balance();
+        balance.setHttpStatus(HttpStatus.OK);
+
+        return balance;
     }
 
     public Balance generateCurrentBalance() {
@@ -51,8 +57,8 @@ public class ProcesarBalanceGenerator {
 
         SipareBalance sipareBalance = sipareBalanceRepository
                 .findByDispatchDateAndType(
-                        "2020-09-29",
-                        //LocalDate.now().toString(),
+                        //"2020-09-29",
+                        LocalDate.now().toString(),
                         BalanceType.PROCESAR
                 );
 
@@ -112,7 +118,7 @@ public class ProcesarBalanceGenerator {
                 Timestamp timestamp =
                         new Timestamp(System.currentTimeMillis());
 
-                balance.setDispatchDate(accountBalanceT24.getDate());
+                balance.setDispatchDate(simpleDateFormat.format(currentDate));
                 balance.setPaymentDate(simpleDateFormat.format(
                         dateOperations.subtractBusinessDays(
                                 currentDate,
@@ -120,15 +126,21 @@ public class ProcesarBalanceGenerator {
                         )
                 ));
                 balance.setType(BalanceType.PROCESAR);
-                balance.setFileAmounts(procesarBalanceBuilder.buildSummary(
 
-                        sipareContentFileT24Repository
-                                .getTotalRcv("2020-09-29"),
-                        accountBalanceT24.getCollectionAcvViv(),
-                        accountBalanceT24.getCollectionImssRcv(),
-                        accountBalanceT24.getCollectionImssRcv()
-                                .add(accountBalanceT24.getCollectionAcvViv()))
-                );
+                /** Retrieving RCV and ACV totals from database with T+1 date **/
+                BigDecimal totalAcv =
+                        sipareContentFileT24Repository.getTotalAcv(
+                                //"2020-09-29"
+                                simpleDateFormat.format(currentDate)
+                        );
+                BigDecimal totalRcv =
+                        sipareContentFileT24Repository.getTotalRcv(
+                                //"2020-09-29"
+                                simpleDateFormat.format(currentDate)
+                        );
+
+                balance.setFileAmounts(procesarBalanceBuilder.buildSummary(
+                        totalRcv, totalAcv, totalRcv.add(totalAcv)));
                 balance.setT24Amounts(procesarBalanceBuilder.buildSummary(
                         BigDecimal.valueOf(accountBalanceT24.getBalanceT24RCV()),
                         BigDecimal.valueOf(accountBalanceT24.getBalanceT24Imss()),

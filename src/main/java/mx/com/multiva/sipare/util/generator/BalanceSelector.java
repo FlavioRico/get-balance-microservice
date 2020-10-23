@@ -2,36 +2,36 @@ package mx.com.multiva.sipare.util.generator;
 
 import mx.com.multiva.sipare.model.response.Balance;
 import mx.com.multiva.sipare.util.BalanceType;
-import mx.com.multiva.sipare.util.generator.impl.ProcesarBalanceGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BalanceSelector {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(BalanceSelector.class);
 
     @Autowired
     ProcesarBalanceGenerator procesarBalanceGenerator;
 
     public Balance selectBalance(String date, String type) {
 
-        Balance balance = null;
+        Balance balance = new Balance();
 
-        switch (type) {
+        if (type.equals(BalanceType.PROCESAR)) {
 
-            case BalanceType.PROCESAR:
-                balance = procesarBalanceGenerator.generateBalanceByTypeAndDate();
-                break;
+            if(date == null) {
 
-            case BalanceType.CONSAR:
-                break;
+                balance =
+                        procesarBalanceGenerator.generateCurrentBalance();
 
-            default:
-                LOGGER.error("Invalid balance type");
-                break;
+            }else {
+
+                balance =
+                        procesarBalanceGenerator.generateBalanceByDate(date);
+            }
+
+        }else {
+
+            balance.setHttpStatus(HttpStatus.BAD_REQUEST);
         }
 
         return balance;

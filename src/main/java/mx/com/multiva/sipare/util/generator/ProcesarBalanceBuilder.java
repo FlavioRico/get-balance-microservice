@@ -1,4 +1,4 @@
-package mx.com.multiva.sipare.util.generator.impl;
+package mx.com.multiva.sipare.util.generator;
 
 import mx.com.multiva.sipare.model.response.Comparison;
 import mx.com.multiva.sipare.model.response.Summary;
@@ -38,7 +38,7 @@ public class ProcesarBalanceBuilder {
 
         return  comparison;
     }
-    
+
     public boolean isBalanced(Comparison comparison) {
 
         boolean balanced;
