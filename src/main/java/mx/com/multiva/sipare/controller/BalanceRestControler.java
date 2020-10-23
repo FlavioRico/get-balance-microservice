@@ -40,10 +40,13 @@ public class BalanceRestControler {
             switch (message.getStatus()) {
 
                 case 204:
-                    message.setDescription("No balances available");
+                    message.setDescription("No balance available");
+                    break;
+                case 400:
+                    message.setDescription("Wrong balance type or date");
                     break;
                 case 424:
-                    message.setDescription("T24 Service is not responding");
+                    message.setDescription("T24 Services are not responding");
                     break;
                 default:
                     LOGGER.warn("Unspecified code");
