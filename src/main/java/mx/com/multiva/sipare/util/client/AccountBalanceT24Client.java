@@ -1,6 +1,6 @@
 package mx.com.multiva.sipare.util.client;
 
-import mx.com.multiva.sipare.model.util.AccountBalanceT24;
+import mx.com.multiva.sipare.model.request.AccountBalanceT24;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
