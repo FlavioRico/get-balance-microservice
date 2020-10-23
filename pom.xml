@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mx.com.multiva</groupId>
-	<artifactId>sipare-get-balance</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>sipare-get-balance</name>
-	<description>This microservice is intended to retrieve balance according to type(institution) and date.</description>
+	<artifactId>sipare-retrieve-procesar-balance</artifactId>
+	<version>1.0.0</version>
+	<name>sipare-retrieve-procesar-balance</name>
+	<description>This microservice is intended to retrieve PROCESAR balance.</description>
 
 	<properties>
 		<java.version>1.8</java.version>

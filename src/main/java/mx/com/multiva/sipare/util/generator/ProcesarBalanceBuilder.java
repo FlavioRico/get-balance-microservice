@@ -2,16 +2,15 @@ package mx.com.multiva.sipare.util.generator.impl;
 
 import mx.com.multiva.sipare.model.response.Comparison;
 import mx.com.multiva.sipare.model.response.Summary;
-import mx.com.multiva.sipare.util.generator.BalanceBuilder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Component
-public class ProcesarBalanceBuilder implements BalanceBuilder {
+public class ProcesarBalanceBuilder {
 
-    @Override
-    public Summary buildSummary(BigDecimal rcv, BigDecimal viviendaAcvImss, BigDecimal total) {
+    public Summary buildSummary(
+            BigDecimal rcv, BigDecimal viviendaAcvImss, BigDecimal total) {
 
         Summary summary = new Summary();
 
@@ -22,7 +21,6 @@ public class ProcesarBalanceBuilder implements BalanceBuilder {
         return summary;
     }
 
-    @Override
     public Comparison buildComparison(Summary fileAmounts, Summary t24Amounts) {
 
         Comparison comparison = new Comparison();
@@ -40,8 +38,7 @@ public class ProcesarBalanceBuilder implements BalanceBuilder {
 
         return  comparison;
     }
-
-    @Override
+    
     public boolean isBalanced(Comparison comparison) {
 
         boolean balanced;
