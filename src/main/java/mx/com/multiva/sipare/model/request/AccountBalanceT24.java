@@ -1,4 +1,4 @@
-package mx.com.multiva.sipare.model.util;
+package mx.com.multiva.sipare.model.request;
 
 import java.math.BigDecimal;
 
